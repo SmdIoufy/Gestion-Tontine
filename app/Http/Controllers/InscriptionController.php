@@ -59,4 +59,9 @@ class InscriptionController extends Controller
     public function home() {
         return view('welcome');
     }
+
+    public function aPropos()
+    {
+        return view('a_propos');
+    }
 }

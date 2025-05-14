@@ -1,93 +1,174 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>SB Admin 2 - Login</title>
-
-    <!-- Custom fonts for this template-->
-    <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
-
-</head>
-
-<body class="bg-gradient-primary">
-
-    <div class="container">
-
-        <!-- Outer Row -->
-        <div class="row justify-content-center">
-
-            <div class="col-xl-10 col-lg-12 col-md-9">
-
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                            <div class="col-lg-6">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Connexion</h1>
-
-                                    </div>
-                                    <form class="user" method="POST" action="{{ route('auth.store') }}">
-                                        @csrf
-                                        <div class="form-group">
-                                            <input type="email" name="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" placeholder="Enter Email Address...">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" name="password"
-                                                class="form-control form-control-user" id="exampleInputPassword"
-                                                placeholder="Password">
-                                        </div>
-
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">
-                                            Login
-                                        </button>
-
-                                    </form>
-                                    <hr>
-                                    <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+@section('contenu')
+<div class="auth-container d-flex justify-content-center align-items-center min-vh-100 p-3">
+    <div class="auth-card">
+        <div class="header text-center mb-4">
+            <div class="header-icon mx-auto mb-3">
+                <i class="fas fa-lock"></i>
             </div>
-
+            <h1 class="h2 fw-bold mb-2">Bienvenue sur Gestion Tontine</h1>
+            <p class="text-muted">Connectez-vous à votre compte</p>
         </div>
 
+        <form method="POST" action="{{ route('auth.store') }}">
+            @csrf
+
+            <div class="mb-4">
+                <div class="input-wrapper position-relative">
+                    <input
+                        type="email"
+                        name="email"
+                        class="form-control"
+                        placeholder="Adresse email"
+                        required
+                    >
+                    <i class="fas fa-envelope input-icon"></i>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <div class="input-wrapper position-relative">
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        class="form-control"
+                        placeholder="Mot de passe"
+                        required
+                    >
+                    <i class="fas fa-eye-slash input-icon password-toggle" onclick="togglePassword()"></i>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary-custom w-100">
+                <i class="fas fa-sign-in-alt me-2"></i>Se connecter
+            </button>
+        </form>
+
+        <div class="footer-links mt-4 pt-3 text-center">
+            <div>
+                <a href="{{ route('password.request') }}" class="text-decoration-none">Mot de passe oublié ?</a> •
+                <a href="{{ route('inscription.index') }}" class="text-decoration-none">Créer un compte</a>
+            </div>
+        </div>
     </div>
+</div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script>
+    function togglePassword() {
+        const password = document.getElementById('password');
+        const icon = document.querySelector('.password-toggle');
 
-    <!-- Core plugin JavaScript-->
-    <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+        if(password.type === 'password') {
+            password.type = 'text';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        } else {
+            password.type = 'password';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        }
+    }
+</script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+<style>
+    :root {
+        --primary-50: #f0f4ff;
+        --primary-100: #d6e4ff;
+        --primary-500: #3b82f6;
+        --primary-600: #2563eb;
+        --gray-700: #374151;
+    }
 
-</body>
+    .auth-container {
+        background: linear-gradient(135deg, var(--primary-50) 0%, var(--primary-100) 100%);
+    }
 
-</html>
+    .auth-card {
+        background: white;
+        border-radius: 1.5rem;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 480px;
+        padding: 2.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .auth-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 8px;
+        background: linear-gradient(90deg, var(--primary-500) 0%, var(--primary-600) 100%);
+    }
+
+    .header-icon {
+        background: var(--primary-50);
+        width: 64px;
+        height: 64px;
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .header-icon i {
+        font-size: 2rem;
+        color: var(--primary-600);
+    }
+
+    .input-wrapper input {
+        border: 2px solid #e5e7eb;
+        border-radius: 0.75rem;
+        padding: 0.875rem 1rem;
+        transition: all 0.2s ease;
+    }
+
+    .input-wrapper input:focus {
+        border-color: var(--primary-500);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .input-icon {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9ca3af;
+        cursor: pointer;
+    }
+
+    .btn-primary-custom {
+        background: linear-gradient(90deg, var(--primary-500) 0%, var(--primary-600) 100%);
+        color: white;
+        border: none;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .btn-primary-custom:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+    }
+
+    .footer-links a {
+        color: var(--gray-700);
+        transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+        color: var(--primary-600);
+    }
+
+    @media (max-width: 480px) {
+        .auth-card {
+            padding: 2rem 1.5rem;
+            border-radius: 1rem;
+        }
+    }
+</style>
+@endsection

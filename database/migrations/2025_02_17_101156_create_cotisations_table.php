@@ -12,9 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cotisations', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('idUser');
             $table->unsignedBigInteger('idTontine');
-            $table->primary(['idUser', 'idTontine']);
+          //  $table->primary(['idUser', 'idTontine']);
             $table->integer('montant');
             $table->enum('moyen_paiement', ['ESPECES', 'WAVE', 'OM']);
             $table->timestamps();

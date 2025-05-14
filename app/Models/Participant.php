@@ -11,6 +11,7 @@ class Participant extends Model
         'dateNaissance',
         'cni',
         'adresse',
-        'imageCni'
+        'imageCni',
+        'solde'
     ];
 }

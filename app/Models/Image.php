@@ -10,4 +10,15 @@ class Image extends Model
         'idTontine',
         'nomImage'
     ];
+
+    public function tontine()
+    {
+        return $this->belongsTo(Tontine::class, 'idTontine');
+    }
+
+
+    public function getUrlAttribute()
+    {
+        return asset('storage/images/' . $this->nomImage);
+    }
 }

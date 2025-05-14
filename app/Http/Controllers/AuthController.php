@@ -19,9 +19,27 @@ class AuthController extends Controller
 
         if (Auth::attempt($auth)) {
             $request->session()->regenerate();
-            return redirect()->route('home');
+
+        if (Auth::attempt($auth)) {
+            $request->session()->regenerate();
+
+            $user = Auth::user();
+            switch ($user->profil) {
+                case 'SUPER_ADMIN':
+                    return redirect()->route('super_admin.dashboard')->with('success', 'Connexion réussie.');
+                case 'GERANT':
+                    return redirect()->route('gerant.dashboard')->with('success', 'Connexion réussie.');
+                case 'PARTICIPANT':
+                    return redirect()->route('participant.dashboard')->with('success', 'Connexion réussie.');
+                default:
+                    return redirect()->route('home')->with('success', 'Connexion réussie.');
+            }
+        }
         }
 
         return back()->with('error', "Email et/ou Mot de passe incorrect");
     }
 }
+
+
+
